@@ -4,9 +4,14 @@ import './index.css';
 import App from './App';
 import { ThemeProvider } from "@material-tailwind/react";
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </Router>
+    
 );

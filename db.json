@@ -1,0 +1,46 @@
+{
+  "preparacoes": [
+    {
+      "id": 5,
+      "nome": "Capon - Breast, Double, Wing On",
+      "criacao": "08-08-2022",
+      "numPorcoes": 21,
+      "empresa": 5
+    },
+    {
+      "id": 6,
+      "nome": "Foam Cup 6 Oz",
+      "criacao": "23-09-2022",
+      "numPorcoes": 36,
+      "empresa": 6
+    },
+    {
+      "id": 7,
+      "nome": "Oil - Peanut",
+      "criacao": "05-03-2023",
+      "numPorcoes": 81,
+      "empresa": 7
+    },
+    {
+      "id": 8,
+      "nome": "Wine - White, Riesling, Semi - Dry",
+      "criacao": "21-07-2022",
+      "numPorcoes": 85,
+      "empresa": 8
+    },
+    {
+      "id": 9,
+      "nome": "Lime Cordial - Roses",
+      "criacao": "10-04-2023",
+      "numPorcoes": 1,
+      "empresa": 9
+    },
+    {
+      "nome": "Panqueca",
+      "numPorcoes": "3",
+      "empresa": "1",
+      "": "",
+      "id": 10
+    }
+  ]
+}

@@ -10,7 +10,25 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 
-import { PreparacaoModal } from "./PreparacaoModal";
+import { PreparacaoModalAdd } from "./PreparacaoModalAdd";
+
+
+const TABLE_HEAD = ["Ingredientes", "Peso Bruto", "Unidade", "Indicador de PArte Comestível", "Peso Líquido", "Per Capita", "Medida Caseira", "Embalagem", "Preço", "Custo de Preparo", ""];
+
+const TABLE_ROWS = [
+  {
+    ingredientes: "Farinha",
+    pesoBruto: 1,
+    unidade: 1,
+    indicadorParteComestivel: 1,
+    pesoLiquido: 1,
+    perCapita: 1,
+    medidaCaseira: "2 Xícaras",
+    embalagem: 1,
+    preco: 2,
+    custoPreparacao: 1,
+}
+];
  
 export const Preparacao = () => {
   const [show, setShow] = useState(false);
@@ -29,10 +47,10 @@ export const Preparacao = () => {
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
-              Preparações
+              Preparação
             </Typography>
             <Typography color="gray" className="mt-1 font-normal">
-              Veja e edite as preparações cadastradas no sistema
+              Veja e edite a preparação cadastrada no sistema
             </Typography>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
@@ -57,7 +75,86 @@ export const Preparacao = () => {
         </div>
       </CardHeader>
       <CardBody>
-        <p>TABELA FICA AQUI</p>
+      <div className="relative overflow-x-auto">
+        <table className="w-full min-w-max table-auto text-left">
+          <thead>
+            <tr>
+              {TABLE_HEAD.map((head) => (
+                <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none opacity-70"
+                  >
+                    {head}
+                  </Typography>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {TABLE_ROWS.map(({ingredientes, pesoBruto, unidade, indicadorParteComestivel, pesoLiquido, perCapita, medidaCaseira, embalagem, preco, custoPreparacao }, index) => (
+              <tr key={index} className="even:bg-blue-gray-50/50">
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {ingredientes}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {pesoBruto}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {unidade}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {indicadorParteComestivel}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {pesoLiquido}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {perCapita}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {medidaCaseira}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {embalagem}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {preco}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {custoPreparacao}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
+                    Edit
+                  </Typography>
+                </td>
+              </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
@@ -72,7 +169,7 @@ export const Preparacao = () => {
           </Button>
         </div>
       </CardFooter>
-      <PreparacaoModal 
+      <PreparacaoModalAdd
         show={show}
         handleShow={handleShow}
       />
