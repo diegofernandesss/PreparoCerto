@@ -34,16 +34,12 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
   
    
   export const AdicionarPreparacoes = ({ showAddModal, handleAddModal }) => {
-    const history = useNavigate()
+    const navigate = useNavigate()
     const [preparacoes, setPreparacoes] = useState({
       nome: "",
       numPorcoes: "",
       empresa: ""
     });
-  
-    const btnHandler = () => {
-      alert("Succefully!")
-    }
 
     const URL = "http://localhost:3000/preparacoes"
 
@@ -56,7 +52,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
       e.preventDefault()
       try {
         const response = await axios.post(URL, preparacoes)
-        history.push("/")
+        navigate("/")
         const data = response.data
         console.log(data)
         setPreparacoes([...preparacoes, data])

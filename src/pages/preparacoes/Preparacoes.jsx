@@ -6,7 +6,6 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Card, CardHeader, Input, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
 
 import { AdicionarPreparacoes } from "./AdicionarPreparacoes";
-import { ExcluirPreparacoes } from "./ExcluirPreparacoes";
 
 const TABLE_HEAD = ["ID", "Nome", "Número de Porções", "Data de Criação", "ID da Empresa", "", ""]; 
 
@@ -54,9 +53,8 @@ export const Preparacoes = () => {
     } catch (error) {
       console.error('Falha ao deletar preparação:', error);
     }
-  };
+  }
   
-   
   return (
     <>
       <Card>
@@ -85,7 +83,7 @@ export const Preparacoes = () => {
                   icon={<MagnifyingGlassIcon 
                   className="h-5 w-5" />} 
                   onChange={(e) => setBusca(e.target.value)}
-                  />
+                />
             </div>
           </div>
         </CardHeader>
@@ -96,22 +94,22 @@ export const Preparacoes = () => {
                   <tr>
                   {TABLE_HEAD.map((head) => (
                       <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                      <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
-                          {head}
-                      </Typography>
-                      </th>
+                        <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
+                            {head}
+                        </Typography>
+                    </th>
                   ))}
                   </tr>
               </thead>
               <tbody>
                   {preparacoes.filter((item) => {
-                      return busca.toLowerCase() === "" ? item : item.nome.toLowerCase().includes(busca);
+                    return busca.toLowerCase() === "" ? item : item.nome.toLowerCase().includes(busca);
                   }).map((item) => (
                       <tr key={item.id} className="even:bg-blue-gray-50/50">
-                              <td className="p-4">
-                              <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.id}
-                              </Typography>
+                            <td className="p-4">
+                            <Typography variant="small" color="blue-gray" className="font-normal">
+                            {item.id}
+                            </Typography>
                           </td>
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
@@ -174,11 +172,6 @@ export const Preparacoes = () => {
           showAddModal={showAddModal}
           handleAddModal={handleAddModal}
         />
-        <ExcluirPreparacoes
-          showDeleteModal={showDeleteModal}
-          setShowDeleteModal={setShowDeleteModal}
-          handleDeleteModal={handleDeleteModal}
-         />
       </Card>
     </>
   );
