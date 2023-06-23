@@ -48,7 +48,7 @@ export const EditarIngredientes = () => {
 
         const fetchMedidasCaseiras = async () => {
         try {
-            const response = await axios.get(URL); // Substitua 'URL_DA_API' pela URL correta da sua API
+            const response = await axios.get(URL); 
             setMedidasCaseiras(response.data.medidasCaseiras);
         } catch (error) {
             console.error('Erro ao obter medidas caseiras:', error);

@@ -1,4 +1,54 @@
 {
+  "cadastro": [
+    {
+      "nome": "Natalia Gomes",
+      "email": "natalia@gmail.com",
+      "senha": "12345678",
+      "id": 1
+    },
+    {
+      "nome": "Natália",
+      "email": "natalia@gmail.com",
+      "senha": "bRz97gh#",
+      "id": 2
+    },
+    {
+      "nome": "Natália",
+      "email": "natalia@gmail.com",
+      "senha": "bRz97gh#",
+      "id": 3
+    },
+    {
+      "nome": "Natália",
+      "email": "natalia@gmail.com",
+      "senha": "bRz97gh#",
+      "id": 4
+    },
+    {
+      "nome": "Natália",
+      "email": "natalia@gmail.com",
+      "senha": "bRz97gh#",
+      "id": 5
+    },
+    {
+      "nome": "Natália",
+      "email": "natalia@gmail.com",
+      "senha": "bRz97gh#",
+      "id": 6
+    },
+    {
+      "nome": "Natália",
+      "email": "natalia@gmail.com",
+      "senha": "bRz97gh#",
+      "id": 7
+    },
+    {
+      "nome": "Natália",
+      "email": "natalia@gmail.com",
+      "senha": "bRz97gh#",
+      "id": 8
+    }
+  ],
   "preparacoes": [
     {
       "id": 5,
