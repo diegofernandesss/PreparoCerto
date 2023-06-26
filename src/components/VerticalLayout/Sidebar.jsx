@@ -23,9 +23,11 @@ export const SideBar = () => {
 
   const navigate = useNavigate();
 
-  const preparacao = () => {
-    navigate("preparacoes");
-  }
+  const preparacao = () => navigate("preparacoes");
+  const gestor = () => navigate("gestor");
+  const preparadores = () => navigate("preparadores");
+  const ingredientes = () => navigate("ingredientes");
+  const cardapioPreparacao = () => navigate("cardapio-preparacao");
 
   const [open, setOpen] = React.useState(0);
  
@@ -38,10 +40,9 @@ export const SideBar = () => {
     <div className="min-h-screen bg-gray-200">
     <div className="p-4 xl:ml-80">
     <aside className="fixed inset-0 z-50 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0">
-    <Card className="fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl xl:translate-x-0 bg-gradient-to-br">
+    <Card className=" bg-gray-900 fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl xl:translate-x-0 bg-gradient-to-br">
         <div className="mb-2 flex items-center gap-4 p-4">
-          <img src="/img/logo-ct-dark.png" alt="brand" className="h-8 w-8" />
-          <Typography variant="h5" >
+          <Typography color="white" variant="h5" >
             Preparo Certo
           </Typography>
         </div>
@@ -50,6 +51,7 @@ export const SideBar = () => {
           open={open === 1}
           icon={
             <ChevronDownIcon
+              color="orange"
               strokeWidth={2.5}
               className={`mx-auto h-4 w-4 transition-transform ${open === 1 ? "rotate-180" : ""}`}
             />
@@ -58,32 +60,38 @@ export const SideBar = () => {
           <ListItem className="p-0" selected={open === 1}>
             <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
               <ListItemPrefix>
-                <PresentationChartBarIcon  className="h-5 w-5" />
+                <PresentationChartBarIcon color="orange"  className="h-5 w-5" />
               </ListItemPrefix>
-              <Typography className="mr-auto font-normal">
+              <Typography color="white" className="mr-auto font-normal">
                 Preparo
               </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
+              <ListItem onClick={() => cardapioPreparacao()}>
                 <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  <ChevronRightIcon color="orange" strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix >
-                Cardápios
+                <Typography color="white" className="mr-auto font-normal">
+                Preparações do Cardápio
+              </Typography>
               </ListItem>
               <ListItem onClick={() => preparacao()}>
                 <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  <ChevronRightIcon color="orange" strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
+                <Typography color="white" className="mr-auto font-normal">
                 Preparações
+              </Typography>
               </ListItem>
-              <ListItem>
+              <ListItem onClick={() => ingredientes()}>
                 <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  <ChevronRightIcon color="orange" strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
+                <Typography color="white" className="mr-auto font-normal">
                 Ingredientes
+              </Typography>
               </ListItem>
             </List>
           </AccordionBody>
@@ -92,34 +100,39 @@ export const SideBar = () => {
           open={open === 2}
           icon={
             <ChevronDownIcon
+              color="orange"
               strokeWidth={2.5}
               className={`mx-auto h-4 w-4 transition-transform ${open === 2 ? "rotate-180" : ""}`}
             />
           }
         >
           <ListItem className="p-0" selected={open === 2}>
-            <AccordionHeader onClick={() => handleOpen(2)} className="border-b-0 p-3">
+            <AccordionHeader onClick={() => handleOpen(2)}  className="border-b-0 p-3">
               <ListItemPrefix>
-                <ShoppingBagIcon className="h-5 w-5" />
+                <ShoppingBagIcon color="orange" className="h-5 w-5" />
               </ListItemPrefix>
-              <Typography color="blue-gray" className="mr-auto font-normal">
+              <Typography color="white" className="mr-auto font-normal">
                 Equipe
               </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
+            <ListItem onClick={() => gestor()}>
                 <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  <ChevronRightIcon color="orange" strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
+                <Typography color="white" className="mr-auto font-normal">
                 Gestores
+              </Typography>
               </ListItem>
-              <ListItem>
+              <ListItem onClick={() => preparadores()}>
                 <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  <ChevronRightIcon color="orange" strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
+                <Typography color="white" className="mr-auto font-normal">
                 Preparadores
+              </Typography>
               </ListItem>
             </List>
           </AccordionBody>
@@ -127,21 +140,27 @@ export const SideBar = () => {
         <hr className="my-2 border-blue-gray-50" />
         <ListItem>
           <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
+            <UserCircleIcon color="orange" className="h-5 w-5" />
           </ListItemPrefix>
-          Perfil
+          <Typography color="white" className="mr-auto font-normal">
+            Perfil
+          </Typography>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
+            <Cog6ToothIcon color="orange" className="h-5 w-5" />
           </ListItemPrefix>
-          Configurações
+          <Typography color="white" className="mr-auto font-normal">
+            Configurações
+          </Typography>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
+            <PowerIcon color="orange" className="h-5 w-5" />
           </ListItemPrefix>
-          Sair
+          <Typography color="white" className="mr-auto font-normal">
+            Sair
+          </Typography>
         </ListItem>
       </List>
     </Card>

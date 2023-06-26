@@ -5,76 +5,16 @@
       "email": "natalia@gmail.com",
       "senha": "12345678",
       "id": 1
-    },
-    {
-      "nome": "Natália",
-      "email": "natalia@gmail.com",
-      "senha": "bRz97gh#",
-      "id": 2
-    },
-    {
-      "nome": "Natália",
-      "email": "natalia@gmail.com",
-      "senha": "bRz97gh#",
-      "id": 3
-    },
-    {
-      "nome": "Natália",
-      "email": "natalia@gmail.com",
-      "senha": "bRz97gh#",
-      "id": 4
-    },
-    {
-      "nome": "Natália",
-      "email": "natalia@gmail.com",
-      "senha": "bRz97gh#",
-      "id": 5
-    },
-    {
-      "nome": "Natália",
-      "email": "natalia@gmail.com",
-      "senha": "bRz97gh#",
-      "id": 6
-    },
-    {
-      "nome": "Natália",
-      "email": "natalia@gmail.com",
-      "senha": "bRz97gh#",
-      "id": 7
-    },
-    {
-      "nome": "Natália",
-      "email": "natalia@gmail.com",
-      "senha": "bRz97gh#",
-      "id": 8
     }
   ],
   "preparacoes": [
     {
-      "id": 5,
-      "nome": "Capon - Breast, Double, Wing On",
-      "criacao": "08-08-2022",
-      "numPorcoes": 21,
-      "empresa": 5
-    },
-    {
-      "id": 7,
-      "nome": "Oil - Peanut ew",
-      "criacao": "05-03-2023",
-      "numPorcoes": 81,
-      "empresa": 7
-    },
-    {
-      "id": 8,
-      "nome": "Comida sasdsds",
-      "numPorcoes": "12",
-      "empresa": "1"
-    },
-    {
-      "id": "1",
-      "nome": "Diego",
-      "numPorcoes": "1",
-      "empresa": "1"
+      "id": 1,
+      "nome": "Diego Fernandes opa",
+      "numPorcoes": "1011111",
+      "empresa": {
+        "id": 1
+      }
     }
   ]
 }

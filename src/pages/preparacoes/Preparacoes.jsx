@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Card, CardHeader, Input, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
 
 import { AdicionarPreparacoes } from "./AdicionarPreparacoes";
 
-const TABLE_HEAD = ["ID", "Nome", "Número de Porções", "Data de Criação", "ID da Empresa", ""]; 
+import { api } from '../../service/api'
+
+const TABLE_HEAD = ["ID", "Nome", "Número de Porções", "Data de Criação", "Empresa", ""]; 
  
 export const Preparacoes = () => {
-  // const navigate = useNavigate()
   const [showAddModal, setShowAddModal] = useState(false)
 
   const [preparacoes, setPreparacoes] = useState([])
@@ -18,21 +17,9 @@ export const Preparacoes = () => {
   const [deletingId, setDeletingId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const [editingId, setEditingId] = useState(null);
-
-
-  const handleAddModal = () => setShowAddModal(!showAddModal)
-
-  const handleClickAdicionar = (event, id) => {
-    setShowAddModal(true);
-    setEditingId(id);
-  };
-
-  const URL = "http://localhost:3000/preparacoes";
-
   const getPreparacoes = async () => {
     try {
-      const response = await axios.get(URL);
+      const response = await api.get("preparacoes");
       setPreparacoes(response.data);
     } catch (error) {
       console.error('Erro ao obter as preparações:', error);
@@ -43,28 +30,31 @@ export const Preparacoes = () => {
     getPreparacoes();
   }, []);
 
+  const handleAddModal = () => setShowAddModal(!showAddModal);
+  const handleClickAdicionar = () => setShowAddModal(true);
 
-  const deletePreparacoes = async (id) => {
+  const handleDelete = async (id) => {
     try {
-      await axios.delete(`${URL}/${id}`);
-      setPreparacoes((prevData) => prevData.filter((preparaces) => preparaces.id !== id));
+      await api.delete(`preparacao/${id}`);
+      setPreparacoes((prevData) => prevData.filter((usuario) => usuario.id !== id));
+      setShowDeleteModal(false);
     } catch (error) {
-      console.error('Falha ao deletar preparação:', error);
+      console.error("Error deleting entry:", error);
     }
-  }
+  };
+
   const handleDeleteClick = (id) => {
     setShowDeleteModal(true);
     setDeletingId(id);
   };
 
-  const handleConfirmDelete = () => {
-    if (deletingId) {
-      deletePreparacoes(deletingId);
-      setShowDeleteModal(false);
-    }
-  };
   const handleCancelDelete = () => setShowDeleteModal(false);
 
+  const handleConfirmDelete = () => {
+    if (deletingId) {
+      handleDelete(deletingId);
+    }
+  };
   
   return (
     <>
@@ -139,7 +129,7 @@ export const Preparacoes = () => {
                           </td>
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.empresa}
+                              {item.empresa.nome}
                               </Typography>
                           </td>
                           <td>
@@ -147,7 +137,7 @@ export const Preparacoes = () => {
                                 <Button 
                                 size="sm" 
                                 variant="outlined" 
-                                onClick={(event) => handleClickAdicionar(event, item.id)}
+                                onClick={(event) => handleAddModal(event, item.id)}
                                 >
                                 Editar
                                 </Button>
@@ -185,8 +175,6 @@ export const Preparacoes = () => {
           preparacoes={preparacoes}
           setPreparacoes={setPreparacoes}
           setShowAddModal={setShowAddModal}
-          editingId ={editingId}
-          setEditingId={setEditingId}
         />
       </Card>
 
@@ -197,7 +185,7 @@ export const Preparacoes = () => {
             <div className="modal-content py-4 px-6">
               <h3 className="text-xl font-bold mb-2">Confirmar exclusão</h3>
               <p className="text-gray-700 mb-4">
-                Você deseja realmente <span className="font-bold">EXCLUIR</span>
+                Você deseja realmente <span className="font-bold">EXCLUIR?</span>
               </p>
               <div className="modal-buttons flex justify-end">
                 <button

@@ -1,7 +1,6 @@
-export * from './preparacao/AdicionarIngredientes';
-export * from './preparacao/EditarIngredientes';
 export * from './preparacao/Preparacao';
-
-export * from './preparacoes/AdicionarPreparacoes';
-export * from './preparacoes/EditarPreparacoes';
 export * from './preparacoes/Preparacoes';
+export * from './gestor/Gestor';
+export * from './preparadores/Preparadores';
+export * from './ingredientes/Ingredientes';
+export * from './preparacoesCardapio/PreparacoesCardapio'

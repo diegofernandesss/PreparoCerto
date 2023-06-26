@@ -1,109 +1,69 @@
-import { useState, useEffect } from "react";
-
-import { Formik } from "formik";
+import { useFormik } from 'formik';
 import * as yup from "yup";
-import axios from "axios";
+
+import { api } from '../../service/api'
 
 import { Button, Dialog, DialogHeader, DialogBody, DialogFooter, Input } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-  
-  
-  const validationSchema = yup.object({
-      nome: yup.string().min(3, "Por favor digite um nome válido").required("Campo obrigatório"),
-      empresa: yup.number().required("Campo obrigatório"),
-      numPorcoes: yup.number().required("Campo obrigatório")
-  });
-   
-  export const AdicionarPreparacoes = ({ showAddModal, handleAddModal, preparacoes, setPreparacoes, setShowAddModal, editingId, setEditingId}) => {
-    const [information, setInformation] = useState({
-      id: "",
-      nome: "",
-      numPorcoes: "",
-      empresa: ""
-    });
 
-    useEffect(() => {
-      if (editingId) {
-        const item = preparacoes.find((item) => item.id === editingId);
-        if (item) {
-          setInformation(item);
+export const AdicionarPreparacoes = ({ showAddModal, handleAddModal, preparacoes, setShowAddModal, setPreparacoes}) => {
+  
+    const onSubmit = async (values, { resetForm }) => {
+      const information = {
+        nome: values.nome,
+        numPorcoes: parseInt(values.numPorcoes),
+        empresa: {
+          id: parseInt(values.id)
         }
-      }
-    }, [editingId, preparacoes]);
+      };
 
-    const URL = "http://localhost:3000/preparacoes"
-
-    const { nome, numPorcoes, empresa } = information
-    const onInputChange = (e) => {
-      setInformation({...information, [e.target.name]: e.target.value})
-    } 
-  
-    const onSubmit = async (e) => {
-      e.preventDefault();
       try {
-        if (editingId) {
-          const response = await axios.put(`${URL}/${editingId}`, information);
-          const data = response.data;
-          setPreparacoes((prevPreparacoes) => {
-            const updatedPreparacoes = [...prevPreparacoes];
-            const index = updatedPreparacoes.findIndex((item) => item.id === editingId);
-            if (index !== -1) {
-              updatedPreparacoes[index] = data;
-            }
-            return updatedPreparacoes;
-          });
-        } else {
-          const response = await axios.post(URL, information);
-          const data = response.data;
-          setPreparacoes([...preparacoes, data]);
-        }
+        const response = await api.post("preparacoes", information)
+        const data = response.data;
+        setPreparacoes([...preparacoes, data]);
         setShowAddModal(false);
-        setEditingId(null);
+        resetForm();
       } catch (error) {
-        console.error('Erro ao adicionar/editar preparação:', error);
+        console.error('Erro ao Adicionar', error);
       }
     };
 
-    useEffect(() => {
-      if (!showAddModal) {
-        setInformation({
-          id: "",
-          nome: "",
-          numPorcoes: "",
-          empresa: ""
-        });
-      }
-    }, [showAddModal]);
+    const validationSchema = yup.object({
+      nome: yup.string().min(3, "Por favor digite um nome válido").required("Campo obrigatório"),
+      numPorcoes: yup.number().required("Campo obrigatório"),
+      id: yup.number().required("Campo obrigatório"),
+    });
+
+    const formik = useFormik({
+      initialValues: {
+        nome: "",
+        numPorcoes: "",
+        id: ""
+      },
+      validateOnBlur: true,
+      onSubmit,
+      validationSchema: validationSchema,
+    });
    
     return (
-      <Formik
-        initialValues={{
-          nome: "",
-          numPorcoes: "",
-          empresa: ""
-        }}
-        validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log(values)
-        }}
-      >
-        {(formik) => (
           <Dialog open={showAddModal} onClose={handleAddModal}>
             <div className="flex items-center justify-between">
               <DialogHeader>Preparação</DialogHeader>
               <XMarkIcon className="mr-3 h-5 w-5" onClick={handleAddModal} />
             </div>
             <DialogBody divider>
-              <form onSubmit={(e) => onSubmit(e)}>
+              <form onSubmit={formik.handleSubmit}>
                 <div className="grid gap-6">
                   <Input 
                     id="nome" 
                     name="nome"
                     color="orange" 
                     type="text"
-                    label="Nome" 
-                    value={nome}
-                    onChange={(e) => onInputChange(e)}
+                    label="Nome da Preparação"
+                    onChange={(e) => {formik.handleChange(e)}}
+                    value={formik.values.nome}
+                    onBlur={formik.handleBlur}
+                    required
                     />
                   <span className="text-sm leading-6 text-red-600">
                     {formik.touched.nome && formik.errors.nome ? formik.errors.nome : ""}
@@ -114,29 +74,33 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
                     type="number"
                     color="orange"
                     label="Número de Porções"
-                    value={numPorcoes}
-                    onChange={(e) => onInputChange(e)}
+                    value={formik.values.numPorcoes}
+                    onBlur={formik.handleBlur}
+                    onChange={(e) => {formik.handleChange(e)}}
+                    required
                   />
                   <span className="text-sm leading-6 text-red-600">
                   {formik.touched.numPorcoes && formik.errors.numPorcoes ? formik.errors.numPorcoes : ""}
                   </span>
                   <Input
-                    id="empresa"
-                    name="empresa"
+                    id="id"
+                    name="id"
                     type="number"
                     color="orange"
                     label="ID da Empresa"
-                    value={empresa}
-                    onChange={(e) => onInputChange(e)}
+                    value={formik.values.id}
+                    onBlur={formik.handleBlur}
+                    onChange={(e) => {formik.handleChange(e)}}   
+                    required
                   />
                   <span className="text-sm leading-6 text-red-600">
-                  {formik.touched.empresa && formik.errors.empresa ? formik.errors.empresa : ""}
+                  {formik.touched.id && formik.errors.id ? formik.errors.id : ""}
                   </span>
                 </div>
                 <div>
-                <Button type="submit" variant="gradient" color="orange">
-              {editingId ? "Atualizar" : "Adicionar"}
-            </Button>
+                <Button className='mt-6' type="submit" variant="gradient" color="orange">
+                  Adicionar
+                </Button>
                 </div>
               </form>
             </DialogBody>  
@@ -146,7 +110,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
               </Button>
             </DialogFooter>    
           </Dialog>
-        )}
-      </Formik>
+
+
     );
   }
