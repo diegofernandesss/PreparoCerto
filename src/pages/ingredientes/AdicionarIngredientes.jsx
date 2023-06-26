@@ -46,36 +46,35 @@ export const AdicionarIngredientes = ({ showAddModal, handleAddModal, ingredient
               <DialogHeader>Ingrediente</DialogHeader>
               <XMarkIcon className="mr-3 h-5 w-5" onClick={handleAddModal} />
             </div>
-            <DialogBody divider>
-              <form onSubmit={formik.handleSubmit}>
-                <div className="grid gap-6">
-                  <Input 
-                    id="nome" 
-                    name="nome"
-                    color="orange" 
-                    type="text"
-                    label="Digite o nome do Ingrediente"
-                    onChange={(e) => {formik.handleChange(e)}}
-                    value={formik.values.nome}
-                    onBlur={formik.handleBlur}
-                    required
-                    />
-                  <span className="text-sm leading-6 text-red-600">
-                    {formik.touched.nome && formik.errors.nome ? formik.errors.nome : ""}
-                  </span>
-                  </div>
-                <div>
-                <Button className='mt-6' type="submit" variant="gradient" color="orange">
+            <form onSubmit={formik.handleSubmit}>
+              <DialogBody divider>
+                
+                  <div className="grid gap-6">
+                    <Input 
+                      id="nome" 
+                      name="nome"
+                      color="orange" 
+                      type="text"
+                      label="Digite o nome do Ingrediente"
+                      onChange={(e) => {formik.handleChange(e)}}
+                      value={formik.values.nome}
+                      onBlur={formik.handleBlur}
+                      required
+                      />
+                    <span className="text-sm leading-6 text-red-600">
+                      {formik.touched.nome && formik.errors.nome ? formik.errors.nome : ""}
+                    </span>
+                    </div>                
+              </DialogBody>  
+              <DialogFooter>
+                <Button variant="outlined" color="red" onClick={handleAddModal}>
+                  Fechar
+                </Button>
+                <Button className='mx-3' type="submit" variant="gradient" color="orange">
                   Adicionar
                 </Button>
-                </div>
-              </form>
-            </DialogBody>  
-            <DialogFooter>
-              <Button variant="outlined" color="red" onClick={handleAddModal}>
-              fechar
-              </Button>
-            </DialogFooter>    
+              </DialogFooter>
+            </form> 
           </Dialog>
     );
   }

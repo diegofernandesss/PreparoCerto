@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import dayjs from "dayjs";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Card, CardHeader, Input, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
@@ -124,7 +125,7 @@ export const Preparacoes = () => {
                           </td>
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.criacao}
+                              {dayjs(item.criacao).format("DD/MM/YYYY HH:mm:ss A")}
                               </Typography>
                           </td>
                           <td className="p-4">

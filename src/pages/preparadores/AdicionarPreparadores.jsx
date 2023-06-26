@@ -35,7 +35,7 @@ export const AdicionarPreparadores = ({ showAddModal, handleAddModal, preparador
       };
 
       try {
-        const response = await api.post("preparacoes", information)
+        const response = await api.post("preparadores", information)
         const data = response.data;
         setPreparadores([...preparadores, data]);
         setShowAddModal(false);

@@ -10,8 +10,8 @@ import {
   AccordionBody,
 } from "@material-tailwind/react";
 import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
+  BookOpenIcon,
+  UserGroupIcon,
   UserCircleIcon,
   Cog6ToothIcon,
   PowerIcon,
@@ -60,7 +60,7 @@ export const SideBar = () => {
           <ListItem className="p-0" selected={open === 1}>
             <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
               <ListItemPrefix>
-                <PresentationChartBarIcon color="orange"  className="h-5 w-5" />
+                <BookOpenIcon color="orange"  className="h-5 w-5" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
                 Preparo
@@ -72,9 +72,9 @@ export const SideBar = () => {
               <ListItem onClick={() => cardapioPreparacao()}>
                 <ListItemPrefix>
                   <ChevronRightIcon color="orange" strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix >
+                </ListItemPrefix>
                 <Typography color="white" className="mr-auto font-normal">
-                Preparações do Cardápio
+                Cardápio
               </Typography>
               </ListItem>
               <ListItem onClick={() => preparacao()}>
@@ -109,7 +109,7 @@ export const SideBar = () => {
           <ListItem className="p-0" selected={open === 2}>
             <AccordionHeader onClick={() => handleOpen(2)}  className="border-b-0 p-3">
               <ListItemPrefix>
-                <ShoppingBagIcon color="orange" className="h-5 w-5" />
+                <UserGroupIcon color="orange" strokeWidth={3} className="h-5 w-5" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
                 Equipe

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from '../../service/api'
+import dayjs from "dayjs";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Card, 
@@ -43,7 +44,7 @@ export const PreparacoesCardapio = () => {
           <div className="mb-8 flex items-center justify-between gap-8">
             <div>
               <Typography className="mt-2" variant="h5" color="blue-gray">
-                Preparações do Cardápio
+                Cardápio
               </Typography>
             </div>
           </div>
@@ -100,7 +101,7 @@ export const PreparacoesCardapio = () => {
                           </td>
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.preparacao.criacao}
+                              {dayjs(item.preparacao.criacao).format("DD/MM/YYYY HH:mm:ss A")}
                               </Typography>
                           </td>
                           <td>
