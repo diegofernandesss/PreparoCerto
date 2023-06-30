@@ -24,13 +24,15 @@ export const PreparacoesCardapio = () => {
   const [preparacaoesCardapio, setPreparacoesCardapio] = useState([])
   const [busca, setBusca] = useState("")
 
-  const getPreparacoesCardapio  = async () => {
-    try {
-      const response = await api.get("cardapio_preparacao");
-      setPreparacoesCardapio(response.data);
-    } catch (error) {
-      console.error('Erro ao obter as preparações:', error);
-    }
+  const getPreparacoesCardapio = async () => {
+      await api.get("cardapio_preparacao")
+      .then(response => {
+        const data = response.data;
+        setPreparacoesCardapio(data);
+      })
+      .catch(err => {
+        console.error("Erro ao listar", err);
+      }) 
   };
 
   useEffect (() => {

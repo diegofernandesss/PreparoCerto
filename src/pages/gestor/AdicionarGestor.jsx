@@ -8,49 +8,18 @@ import { Button,
          DialogHeader, 
          DialogBody, 
          DialogFooter, 
-         Input 
+         Input,
+         Select,
+         Option
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from 'react';
 
-export const AdicionarGestor = ({ showAddModal, handleAddModal, gestores, setShowAddModal, setGestores}) => {
+export const AdicionarGestor = ({ showAddModal, gestores, setShowAddModal, setGestores, gestor, setGestor}) => {
   
     const [existingEmails, setExistingEmails] = useState([]);
+    const [empresaList, setEmpresaList] = useState([]);
 
-    useEffect(() => {
-      const fetchExistingEmails = async () => {
-        try {
-          const response = await api.get("/usuarios");
-          const usuarios = response.data;
-          const emails = usuarios.map((usuario) => usuario.email);
-          setExistingEmails(emails);
-        } catch (error) {
-          console.error("Erro ao obter os emails existentes", error);
-        }
-      };
-      fetchExistingEmails();
-    }, []);
-  
-    const onSubmit = async (values, { resetForm }) => {
-      const information = {
-        nome: values.nome,
-        email: values.email,
-        senha: values.senha,
-        empresa: {
-          id: parseInt(values.id)
-        }
-      };
-
-      try {
-        const response = await api.post("/gestor", information)
-        const data = response.data;
-        setGestores([...gestores, data]);
-        setShowAddModal(false);
-        resetForm();
-      } catch (error) {
-        console.error('Erro ao Adicionar', error);
-      }
-    };
 
     const validationSchema = yup.object({
       nome: yup
@@ -62,9 +31,9 @@ export const AdicionarGestor = ({ showAddModal, handleAddModal, gestores, setSho
         .string()
         .trim()
         .email("Digite um e-mail válido")
-        .test("unique-email", "O e-mail já está em uso", function (value) {
-          return !existingEmails.includes(value);
-        })
+        // .test("unique-email", "O e-mail já está em uso", function (value) {
+        //   return !existingEmails.includes(value);
+        // })
         .test("lowercase-email", "Digite o e-mail em letras minúsculas", function (value) {
           return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g.test(value);
         })
@@ -92,23 +61,95 @@ export const AdicionarGestor = ({ showAddModal, handleAddModal, gestores, setSho
         }),
     });
 
+    const onClose = () => {
+      setGestor({})
+      formik.resetForm()
+      setShowAddModal(!showAddModal)
+    }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const emailsResponse = await api.get("usuarios");
+          const usuarios = emailsResponse.data;
+          const emails = usuarios.map((usuario) => usuario.email);
+          setExistingEmails(emails);
+    
+          const empresasResponse = await api.get("empresas");
+          const empresas = empresasResponse.data.empresa;
+          setEmpresaList(empresas);
+        } catch (error) {
+          console.error("Erro ao obter os emails existentes", error);
+        }
+      };
+      fetchData();
+    }, []);
+
+    const handleSelectChange = (value) => {
+      formik.setFieldValue('id', value);
+    };
+
+    const onSubmit = async (values, { resetForm }) => {
+      const information = {
+        nome: values.nome,
+        email: values.email,
+        senha: values.senha,
+        empresa: {
+          id: parseInt(values.id)
+        }
+      };
+
+      const informationUpdate = {
+        nome: values.nome,
+        email: values.email,
+        senha: values.senha
+      };
+
+      try {
+        if(gestor.id) {
+          const response = await api.put(`/gestor/${gestor.id}`, informationUpdate)
+          setGestores((state) => state.map((gestorState) => gestorState.id === gestor.id ? response.data : gestorState))
+          setShowAddModal(false);
+          setGestor({})
+        } else {
+          const response = await api.post("/gestor", information)
+          const data = response.data;
+          setGestores([...gestores, data]);
+          setShowAddModal(false);
+          resetForm();
+        }
+        
+      } catch (error) {
+        console.log('Erro ao Adicionar Gestor', error);
+      }
+    };
+
     const formik = useFormik({
       initialValues: {
         nome: "",
         email: "",
         senha: "",
-        id: ""
+        empresa: {}
       },
       validateOnBlur: true,
       onSubmit,
       validationSchema: validationSchema,
     });
+
+    useEffect(() => {
+      if (gestor.id) {
+        formik.setFieldValue("nome", gestor.nome)
+        formik.setFieldValue("email", gestor.email)
+        formik.setFieldValue("senha", gestor.senha)
+        formik.setFieldValue("id", gestor.empresa.id)
+      }
+    }, [gestor])
    
     return (
-          <Dialog open={showAddModal} onClose={handleAddModal}>
+          <Dialog open={showAddModal}>
             <div className="flex items-center justify-between">
               <DialogHeader>Gestor</DialogHeader>
-              <XMarkIcon className="mr-3 h-5 w-5" onClick={handleAddModal} />
+              <XMarkIcon className="mr-3 h-5 w-5" onClick={ () => onClose()} />
             </div>
             <DialogBody divider>
               <form onSubmit={formik.handleSubmit}>
@@ -155,30 +196,33 @@ export const AdicionarGestor = ({ showAddModal, handleAddModal, gestores, setSho
                   <span className="text-sm leading-6 text-red-600">
                   {formik.touched.senha && formik.errors.senha ? formik.errors.senha : ""}
                   </span>
-                  <Input
+                  <Select label="Selecione uma Empresa" 
                     id="id"
-                    name="id"
-                    type="number"
-                    color="orange"
-                    label="ID da Empresa"
-                    value={formik.values.id}
+                    value={formik.values.id} 
+                    onChange={handleSelectChange}
                     onBlur={formik.handleBlur}
-                    onChange={(e) => {formik.handleChange(e)}}   
-                    required
-                  />
+                    color="orange"
+                    disabled={gestor.id ? true : false}
+                  >
+                    {empresaList.map((empresa) => (
+                      <Option key={empresa.id} value={empresa.id}>
+                        {empresa.nome}
+                      </Option>
+                    ))}
+                  </Select>
                   <span className="text-sm leading-6 text-red-600">
                   {formik.touched.id && formik.errors.id ? formik.errors.id : ""}
-                  </span>
+                </span>
                 </div>
                 <div>
                 <Button className='mt-6' type="submit" variant="gradient" color="orange">
-                  Adicionar
+                  {gestor.id ? "Atualizar" : "Adicionar"}
                 </Button>
                 </div>
               </form>
             </DialogBody>  
             <DialogFooter>
-              <Button variant="outlined" color="red" onClick={handleAddModal}>
+              <Button variant="outlined" color="red" onClick={() => onClose()}>
               fechar
               </Button>
             </DialogFooter>    

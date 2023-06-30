@@ -15,6 +15,7 @@ import {
   UserCircleIcon,
   Cog6ToothIcon,
   PowerIcon,
+  BuildingOffice2Icon
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ export const SideBar = () => {
   const preparadores = () => navigate("preparadores");
   const ingredientes = () => navigate("ingredientes");
   const cardapioPreparacao = () => navigate("cardapio-preparacao");
+  const empresas = () => navigate("empresas");
 
   const [open, setOpen] = React.useState(0);
  
@@ -136,6 +138,20 @@ export const SideBar = () => {
               </ListItem>
             </List>
           </AccordionBody>
+        </Accordion>
+        <Accordion
+          open={open === 3}
+        >
+          <ListItem className="p-0" selected={open === 3}>
+            <AccordionHeader onClick={() => empresas()} className="border-b-0 p-3">
+              <ListItemPrefix>
+                <BuildingOffice2Icon color="orange"  className="h-5 w-5" />
+              </ListItemPrefix>
+              <Typography color="white" className="mr-auto font-normal">
+                Empresas
+              </Typography>
+            </AccordionHeader>
+          </ListItem>
         </Accordion>
         <hr className="my-2 border-blue-gray-50" />
         <ListItem>

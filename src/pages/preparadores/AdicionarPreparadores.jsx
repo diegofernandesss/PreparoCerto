@@ -1,49 +1,21 @@
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
-import { Button, Dialog, DialogHeader, DialogBody, DialogFooter, Input } from "@material-tailwind/react";
+import { Button, Dialog, DialogHeader, DialogBody, DialogFooter, Input, Select, Option } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from 'react';
 import { api } from '../../service/api'
 
-export const AdicionarPreparadores = ({ showAddModal, handleAddModal, preparadores, setShowAddModal, setPreparadores}) => {
+export const AdicionarPreparadores = ({ showAddModal, preparadores, setShowAddModal, setPreparadores, preparador, setPreparador}) => {
 
     const [existingEmails, setExistingEmails] = useState([]);
+    const [empresaList, setEmpresaList] = useState([]);
 
-    useEffect(() => {
-      const fetchExistingEmails = async () => {
-        try {
-          const response = await api.get("usuarios");
-          const usuarios = response.data;
-          const emails = usuarios.map((usuario) => usuario.email);
-          setExistingEmails(emails);
-        } catch (error) {
-          console.error("Erro ao obter os emails existentes", error);
-        }
-      };
-      fetchExistingEmails();
-    }, []);
-
-    const onSubmit = async (values, { resetForm }) => {
-      const information = {
-        nome: values.nome,
-        email: values.email,
-        senha: values.senha,
-        empresa: {
-          id: parseInt(values.id)
-        }
-      };
-
-      try {
-        const response = await api.post("preparadores", information)
-        const data = response.data;
-        setPreparadores([...preparadores, data]);
-        setShowAddModal(false);
-        resetForm();
-      } catch (error) {
-        console.error('Erro ao Adicionar', error);
-      }
-    };
+    const onClose = () => {
+      formik.resetForm()
+      setShowAddModal(!showAddModal)
+      setPreparador({});
+    }
 
     const validationSchema = yup.object({
       nome: yup
@@ -55,9 +27,9 @@ export const AdicionarPreparadores = ({ showAddModal, handleAddModal, preparador
         .string()
         .trim()
         .email("Digite um e-mail válido")
-        .test("unique-email", "O e-mail já está em uso", function (value) {
-          return !existingEmails.includes(value);
-        })
+        // .test("unique-email", "O e-mail já está em uso", function (value) {
+        //   return !existingEmails.includes(value);
+        // })
         .test("lowercase-email", "Digite o e-mail em letras minúsculas", function (value) {
           return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g.test(value);
         })
@@ -73,36 +45,94 @@ export const AdicionarPreparadores = ({ showAddModal, handleAddModal, preparador
         .required("Campo obrigatório"),
       id: yup
         .number()
-        .typeError("O ID deve ser um número")
         .required("Campo obrigatório")
-        .positive("O ID deve ser um número positivo")
-        .test("is-number", "O ID deve conter apenas números", (value) => {
-          if (value) {
-            const regex = /^[0-9]+$/;
-            return regex.test(value.toString());
-          }
-          return true;
-        }),
     });
 
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const emailsResponse = await api.get("usuarios");
+          const usuarios = emailsResponse.data;
+          const emails = usuarios.map((usuario) => usuario.email);
+          setExistingEmails(emails);
+    
+          const empresasResponse = await api.get("empresas");
+          const empresas = empresasResponse.data.empresa;
+          setEmpresaList(empresas);
+        } catch (error) {
+          console.error("Erro ao obter os dados", error);
+        }
+      };
+      fetchData();
+    }, []);
+
+    const handleSelectChange = (value) => {
+      formik.setFieldValue('id', value);
+    };
+
+    const onSubmit = async (values, { resetForm }) => {
+      const information = {
+        nome: values.nome,
+        email: values.email,
+        senha: values.senha,
+        empresa: {
+          id: parseInt(values.id)
+        }
+      };
+
+      const informationUpdate = {
+        nome: values.nome,
+        email: values.email,
+        senha: values.senha,
+      };
+
+      try {
+
+        if(preparador.id){
+          const response = await api.put(`/preparadores/${preparador.id}`, informationUpdate)
+          setPreparadores((state) => state.map((preparadorState) => preparadorState.id === preparador.id ? response.data : preparadorState))
+          setPreparador({});
+          resetForm();
+          setShowAddModal(false);
+        } else {
+          const response = await api.post("preparadores", information)
+          const data = response.data;
+          setPreparadores([...preparadores, data]);
+          setShowAddModal(false);
+          resetForm();
+        }
+        
+      } catch (error) {
+        console.error('Erro ao Adicionar', error);
+      }
+    };
 
     const formik = useFormik({
       initialValues: {
         nome: "",
         email: "",
         senha: "",
-        id: ""
+        emrpesa: {}
       },
       validateOnBlur: true,
       onSubmit,
       validationSchema: validationSchema,
     });
+
+    useEffect(() => {
+      if (preparador.id) {
+        formik.setFieldValue("nome", preparador.nome)
+        formik.setFieldValue("email", preparador.email)
+        formik.setFieldValue("senha", preparador.senha)
+        formik.setFieldValue("id", preparador.empresa.id)
+      }
+    }, [preparador])
    
     return (
-          <Dialog open={showAddModal} onClose={handleAddModal}>
+          <Dialog open={showAddModal}>
             <div className="flex items-center justify-between">
               <DialogHeader>Preparadores</DialogHeader>
-              <XMarkIcon className="mr-3 h-5 w-5" onClick={handleAddModal} />
+              <XMarkIcon className="mr-3 h-5 w-5" onClick={ () => onClose()} />
             </div>
             <DialogBody divider>
               <form onSubmit={formik.handleSubmit}>
@@ -149,35 +179,36 @@ export const AdicionarPreparadores = ({ showAddModal, handleAddModal, preparador
                   <span className="text-sm leading-6 text-red-600">
                   {formik.touched.senha && formik.errors.senha ? formik.errors.senha : ""}
                   </span>
-                  <Input
+                  <Select label="Selecione uma Empresa" 
                     id="id"
-                    name="id"
-                    type="number"
-                    color="orange"
-                    label="ID da Empresa"
-                    value={formik.values.id}
+                    value={formik.values.id} 
+                    onChange={handleSelectChange}
                     onBlur={formik.handleBlur}
-                    onChange={(e) => {formik.handleChange(e)}}   
-                    required
-                  />
+                    color="orange"
+                    disabled={preparador.id ? true : false}
+                  >
+                    {empresaList.map((empresa) => (
+                      <Option key={empresa.id} value={empresa.id}>
+                        {empresa.nome}
+                      </Option>
+                    ))}
+                  </Select>
                   <span className="text-sm leading-6 text-red-600">
                   {formik.touched.id && formik.errors.id ? formik.errors.id : ""}
-                  </span>
+                </span>
                 </div>
                 <div>
                 <Button className='mt-6' type="submit" variant="gradient" color="orange">
-                  Adicionar
+                  {preparador.id ? "Atualizar" : "Adicionar"}
                 </Button>
                 </div>
               </form>
             </DialogBody>  
             <DialogFooter>
-              <Button variant="outlined" color="red" onClick={handleAddModal}>
+              <Button variant="outlined" color="red" onClick={ () => onClose()}>
               fechar
               </Button>
             </DialogFooter>    
           </Dialog>
-
-
     );
   }

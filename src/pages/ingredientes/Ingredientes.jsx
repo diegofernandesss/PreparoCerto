@@ -9,18 +9,21 @@ import { AdicionarIngredientes } from './AdicionarIngredientes'
 const TABLE_HEAD = ["ID", "Ingredientes", ""]; 
 
 export const Ingredientes = () => {
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [ingredientes, setIngredientes] = useState([])
-  const [busca, setBusca] = useState("")
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const [ingredientes, setIngredientes] = useState([]);
+  const [busca, setBusca] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [ingrediente, setIngrediente] = useState({});
 
   const getIngredientes = async () => {
     try {
       const response = await api.get("ingredientes");
       setIngredientes(response.data);
     } catch (error) {
-      console.error('Erro ao obter os preparadores:', error);
+      console.error('Erro ao obter os Ingrediente:', error);
     }
   };
 
@@ -28,7 +31,17 @@ export const Ingredientes = () => {
     getIngredientes();
   }, []);
 
-  const handleAddModal = () => setShowAddModal(!showAddModal);
+  const handleAddModal = async (id) => {
+    setShowAddModal(!showAddModal);
+    if(id) {
+      const response = await api.get(`ingrediente/${id}`);
+      setIngrediente(response.data);
+    } else{
+      setIngrediente({});
+    }
+  }
+
+
   const handleClickAdicionar = () => setShowAddModal(true);
 
   const handleDelete = async (id) => {
@@ -37,7 +50,7 @@ export const Ingredientes = () => {
       setIngredientes((prevData) => prevData.filter((ingrediente) => ingrediente.id !== id));
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error deleting entry:", error);
+      console.error("Error ao Deletar Ingrediente", error);
     }
   };
 
@@ -53,6 +66,8 @@ export const Ingredientes = () => {
       handleDelete(deletingId);
     }
   }; 
+
+  
   return (
     <>
       <Card >
@@ -114,11 +129,12 @@ export const Ingredientes = () => {
                               {item.nome}
                               </Typography>
                           </td>
-                            <div className="flex w-max mt-3 gap-4">
+                          <td>
+                            <div className="flex w-max gap-4">
                                 <Button 
                                 size="sm" 
                                 variant="outlined" 
-                                onClick={(event) => handleAddModal(event, item.id)}
+                                onClick={() => handleAddModal(item.id)}
                                 >
                                 Editar
                                 </Button>
@@ -130,6 +146,7 @@ export const Ingredientes = () => {
                                 excluir
                                 </Button>
                             </div>
+                            </td>
                       </tr>
                   ))} 
               </tbody>
@@ -155,6 +172,8 @@ export const Ingredientes = () => {
           ingredientes={ingredientes}
           setIngredientes={setIngredientes}
           setShowAddModal={setShowAddModal}
+          ingrediente = {ingrediente}
+          setIngrediente = {setIngrediente}
         />
       </Card>
 

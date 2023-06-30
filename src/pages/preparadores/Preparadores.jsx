@@ -14,6 +14,8 @@ export const Preparadores = () => {
   const [deletingId, setDeletingId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  const [preparador, setPreparador] = useState({});
+
   const getPreparadores = async () => {
     try {
       const response = await api.get("preparadores");
@@ -27,7 +29,16 @@ export const Preparadores = () => {
     getPreparadores();
   }, []);
 
-  const handleAddModal = () => setShowAddModal(!showAddModal);
+  const handleAddModal = async (id) => {
+    setShowAddModal(!showAddModal);
+    if(id) {
+      const response = await api.get(`preparadores/${id}`);
+      setPreparador(response.data);
+    } else{
+      setPreparador({});
+    }
+  }
+
   const handleClickAdicionar = () => setShowAddModal(true);
 
   const handleDelete = async (id) => {
@@ -134,7 +145,7 @@ export const Preparadores = () => {
                                 <Button 
                                 size="sm" 
                                 variant="outlined" 
-                                onClick={(event) => handleAddModal(event, item.id)}
+                                onClick={() => handleAddModal(item.id)}
                                 >
                                 Editar
                                 </Button>
@@ -172,6 +183,8 @@ export const Preparadores = () => {
           preparadores={preparadores}
           setPreparadores={setPreparadores}
           setShowAddModal={setShowAddModal}
+          preparador={preparador}
+          setPreparador={setPreparador}
         />
       </Card>
 

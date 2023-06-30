@@ -3,52 +3,52 @@ import { useState, useEffect } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Card, CardHeader, Input, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
 
-import { AdicionarGestor } from './AdicionarGestor'
+import { AdicionarEmpresa } from './AdicionarEmpresa'
 
 import { api } from '../../service/api'
 
-const TABLE_HEAD = ["ID", "Nome", "E-mail", "Empresa", "Proprietário", ""]; 
+const TABLE_HEAD = ["ID", "Nome da Empresa", "CNPJ", "Proprietario", "E-mail Proprietário", ""]; 
 
-export const Gestor = () => {
+export const Empresas = () => {
   const [showAddModal, setShowAddModal] = useState(false)
 
-  const [gestores, setGestores] = useState([])
+  const [empresas, setEmpresas] = useState([])
   const [busca, setBusca] = useState("")
   const [deletingId, setDeletingId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  const [empresa, setEmpresa] = useState({});
 
-  const [gestor, setGestor] = useState({});
-
-  const getGestores = async () => {
+  const getEmpresas = async () => {
     try {
-      const response = await api.get("/gestor");
-      setGestores(response.data);
+      const response = await api.get("empresas");
+      setEmpresas(response.data.empresa);
+      
     } catch (error) {
       console.error('Erro ao obter os gestores:', error);
     }
   };
 
   useEffect (() => {
-    getGestores();
+    getEmpresas();
   }, []);
 
   const handleAddModal = async (id) => {
     setShowAddModal(!showAddModal);
     if(id) {
-      const response = await api.get(`/gestor/${id}`);
-      setGestor(response.data);
+      const response = await api.get(`empresas/${id}`);
+      setEmpresa(response.data.empresa);
     } else{
-      setGestor({});
+      setEmpresa({});
     }
-  };
+  }
 
   const handleClickAdicionar = () => setShowAddModal(true);
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/gestor/${id}`);
-      setGestores((prevData) => prevData.filter((gestor) => gestor.id !== id));
+      await api.delete(`empresas/${id}`);
+      setEmpresas((prevData) => prevData.filter((empresa) => empresa.id !== id));
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error ao deletar gestor:", error);
@@ -67,6 +67,7 @@ export const Gestor = () => {
       handleDelete(deletingId);
     }
   };
+
   
   return (
     <>
@@ -75,7 +76,7 @@ export const Gestor = () => {
           <div className="mb-8 flex items-center justify-between gap-8">
             <div>
               <Typography variant="h5" color="blue-gray">
-                Gestores
+                Empresas
               </Typography>
             </div>
             <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
@@ -115,10 +116,10 @@ export const Gestor = () => {
                   </tr>
               </thead>
               <tbody>
-              {gestores.filter((item) => {
+              {empresas.filter((item) => {
                       return busca.toLowerCase() === "" ? item : item.nome.toLowerCase().includes(busca);
-                    }).map((item) => (
-                      <tr key={item.id} className="even:bg-blue-gray-50/50">
+                    }).map((item, index) => (
+                      <tr key={index} className="even:bg-blue-gray-50/50">
                             <td className="p-4">
                             <Typography variant="small" color="blue-gray" className="font-normal">
                               {item.id}
@@ -131,17 +132,17 @@ export const Gestor = () => {
                           </td>
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.email}
+                              {item.cnpj}
                               </Typography>
                           </td>
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.empresa.nome}
+                              {item.proprietario.nome}
                               </Typography>
                           </td>
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.empresa.proprietario.nome}
+                              {item.proprietario.email}
                               </Typography>
                           </td>
                           <td>
@@ -181,14 +182,14 @@ export const Gestor = () => {
             </Button>
           </div>
         </CardFooter>
-        <AdicionarGestor 
+        <AdicionarEmpresa
           showAddModal={showAddModal}
           handleAddModal={handleAddModal}
-          gestores={gestores}
-          setGestores={setGestores}
+          empresas={empresas}
+          setEmpresas={setEmpresas}
           setShowAddModal={setShowAddModal}
-          gestor={gestor}
-          setGestor={setGestor}
+          empresa = {empresa}
+          setEmpresa ={setEmpresa}
         />
       </Card>
 

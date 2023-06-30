@@ -8,6 +8,8 @@ import { AdicionarPreparacoes } from "./AdicionarPreparacoes";
 
 import { api } from '../../service/api'
 
+import { useNavigate } from "react-router-dom";
+
 const TABLE_HEAD = ["ID", "Nome", "Número de Porções", "Data de Criação", "Empresa", ""]; 
  
 export const Preparacoes = () => {
@@ -17,6 +19,11 @@ export const Preparacoes = () => {
   const [busca, setBusca] = useState("")
   const [deletingId, setDeletingId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [preparacao, setPreparacao] = useState({});
+
+  const navigate = useNavigate();
+
 
   const getPreparacoes = async () => {
     try {
@@ -31,7 +38,16 @@ export const Preparacoes = () => {
     getPreparacoes();
   }, []);
 
-  const handleAddModal = () => setShowAddModal(!showAddModal);
+  const handleAddModal = async (id) => {
+    setShowAddModal(!showAddModal);
+    if(id) {
+      const response = await api.get(`/preparacao/${id}`);
+      setPreparacao(response.data);
+    } else{
+      setPreparacao({});
+    }
+  };
+
   const handleClickAdicionar = () => setShowAddModal(true);
 
   const handleDelete = async (id) => {
@@ -138,7 +154,7 @@ export const Preparacoes = () => {
                                 <Button 
                                 size="sm" 
                                 variant="outlined" 
-                                onClick={(event) => handleAddModal(event, item.id)}
+                                onClick={() => handleAddModal(item.id)}
                                 >
                                 Editar
                                 </Button>
@@ -148,6 +164,14 @@ export const Preparacoes = () => {
                                 onClick={() => handleDeleteClick(item.id)}
                                 >
                                 excluir
+                                </Button>
+
+                                <Button 
+                                size="sm" 
+                                color="green" 
+                                onClick={() => navigate(`/painel-admin/preparacoes/${item.id}`)}
+                                >
+                                Preparar
                                 </Button>
                             </div>
                           </td>
@@ -176,6 +200,8 @@ export const Preparacoes = () => {
           preparacoes={preparacoes}
           setPreparacoes={setPreparacoes}
           setShowAddModal={setShowAddModal}
+          preparacao={preparacao}
+          setPreparacao={setPreparacao}
         />
       </Card>
 
