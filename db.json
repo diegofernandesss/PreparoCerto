@@ -1,0 +1,20 @@
+{
+  "cadastro": [
+    {
+      "nome": "Natalia Gomes",
+      "email": "natalia@gmail.com",
+      "senha": "12345678",
+      "id": 1
+    }
+  ],
+  "preparacoes": [
+    {
+      "id": 1,
+      "nome": "Diego Fernandes opa",
+      "numPorcoes": "1011111",
+      "empresa": {
+        "id": 1
+      }
+    }
+  ]
+}
