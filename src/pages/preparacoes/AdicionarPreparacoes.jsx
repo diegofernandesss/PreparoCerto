@@ -76,7 +76,7 @@ export const AdicionarPreparacoes = ({ showAddModal, preparacoes, setShowAddModa
         }
         
       } catch (error) {
-        console.error('Erro ao Adicionar', error);
+        console.error('Erro ao Adicionar/Atualizar Preparação', error);
       }
     };
 

@@ -67,7 +67,7 @@ export const AdicionarEmpresa = ({ showAddModal, empresas, setShowAddModal, setE
         const proprietario = proprietarioResponse.data;
         setProprietarioList(proprietario);
       } catch (error) {
-        console.error("Erro ao obter os dados", error);
+        console.error("Erro ao listar Proprietários", error);
       }
     };
     fetchData();
@@ -110,7 +110,7 @@ export const AdicionarEmpresa = ({ showAddModal, empresas, setShowAddModal, setE
         resetForm();
       }
     } catch (error) {
-      console.log('Erro ao Adicionar Empresa', error);
+      console.log('Erro ao Adicionar/Atualizar Empresa', error);
     }
   };
    

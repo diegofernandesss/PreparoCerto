@@ -5,3 +5,4 @@ export * from './preparadores/Preparadores';
 export * from './ingredientes/Ingredientes';
 export * from './preparacoesCardapio/PreparacoesCardapio'
 export * from './empresas/Empresas'
+export * from './Login/Login'

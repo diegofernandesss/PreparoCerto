@@ -9,11 +9,11 @@ import {
   Ingredientes,
   PreparacoesCardapio,
   Empresas,
-  AdicionarPreparacao
+  AdicionarPreparacao,
+  Login
 } from '../pages';
 import { SideBar } from "../components"
 import { ErrorPage }  from "./ErrorPage";
-import { Login } from  '../auth/Login'
 
 export default function MainRouters() {
   return (

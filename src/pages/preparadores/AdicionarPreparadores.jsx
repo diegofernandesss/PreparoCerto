@@ -103,7 +103,7 @@ export const AdicionarPreparadores = ({ showAddModal, preparadores, setShowAddMo
         }
         
       } catch (error) {
-        console.error('Erro ao Adicionar', error);
+        console.error('Erro ao Adicionar/Atualizar Preparadores', error);
       }
     };
 

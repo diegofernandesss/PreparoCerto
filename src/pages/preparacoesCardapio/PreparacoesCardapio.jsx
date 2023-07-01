@@ -31,7 +31,7 @@ export const PreparacoesCardapio = () => {
         setPreparacoesCardapio(data);
       })
       .catch(err => {
-        console.error("Erro ao listar", err);
+        console.error("Erro ao listar cardápio", err);
       }) 
   };
 

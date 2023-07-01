@@ -120,7 +120,7 @@ export const AdicionarGestor = ({ showAddModal, gestores, setShowAddModal, setGe
         }
         
       } catch (error) {
-        console.log('Erro ao Adicionar Gestor', error);
+        console.log('Erro ao Adicionar/Atualizar Gestor', error);
       }
     };
 

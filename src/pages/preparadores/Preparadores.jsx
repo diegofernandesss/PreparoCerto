@@ -47,7 +47,7 @@ export const Preparadores = () => {
       setPreparadores((prevData) => prevData.filter((preparador) => preparador.id !== id));
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error deleting entry:", error);
+      console.error("Error ddeletar preparadores", error);
     }
   };
 

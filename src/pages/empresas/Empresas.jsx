@@ -25,7 +25,7 @@ export const Empresas = () => {
       setEmpresas(response.data.empresa);
       
     } catch (error) {
-      console.error('Erro ao obter os gestores:', error);
+      console.error('Erro ao obter empresas:', error);
     }
   };
 
@@ -51,7 +51,7 @@ export const Empresas = () => {
       setEmpresas((prevData) => prevData.filter((empresa) => empresa.id !== id));
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error ao deletar gestor:", error);
+      console.error("Error ao deletar empresa:", error);
     }
   };
 

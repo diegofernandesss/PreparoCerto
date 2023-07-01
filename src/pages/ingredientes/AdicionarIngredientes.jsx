@@ -43,7 +43,7 @@ const onSubmit = async (values, { resetForm }) => {
     }
    
   } catch (error) {
-    console.error('Erro ao Adicionar', error);
+    console.error('Erro ao Adicionar/Atualizar Ingredientes', error);
   }
   };
 
