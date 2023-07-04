@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { useFormik } from 'formik';
 import * as yup from "yup";
 import {
@@ -6,25 +6,32 @@ import {
   Input,
   Button,
   Typography,
-  Navbar,
 } from "@material-tailwind/react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from '../../service/api';
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Context/Auth";
 import { Header } from '../../components/LandingPage/Header/Header'
 
-export function Login() {
+export function Cadastro() {
 
   const navigate = useNavigate();
-
-  const { signIn, signed } = useContext(AuthContext)
 
   const notifyError = (error) => {
     toast.error(error.response.data.descricao);
   };
-  
+
+  const notifySuccess = () => {
+    toast.success("Cadastrado com Sucesso");
+  };
+
+
   const validationSchema = yup.object({
+    nome: yup
+        .string()
+        .trim()
+        .required("Campo obrigatório")
+        .matches(/^[A-Z].*$/, "O nome deve começar com uma letra maiúscula"),
     email: yup
         .string()
         .trim()
@@ -46,20 +53,22 @@ export function Login() {
 
   const onSubmit = async (values) => {
     const information = {
+      nome: values.nome,
       email: values.email,
       senha: values.senha
     };
 
     try {
-      await signIn(information)
-    } catch(error) {
-      notifyError(error)
+      await api.post(`proprietarios`, information);
+      notifySuccess()
+    } catch (error) {
+      notifyError(error);
     }
-    
   };
-
+  
   const formik = useFormik({
     initialValues: {
+      nome: "",
       email: "",
       senha: "",
     },
@@ -69,29 +78,36 @@ export function Login() {
   });
 
 
-  useEffect(() => {
-    if (signed) {
-      navigate("/painel-admin");
-    }
-  }, [signed, navigate]);
-
   return (
     <>
     <Header />
     <ToastContainer 
       position="top-center"
     />
-    
       <div className="flex justify-center items-center h-screen">
         <Card color="transparent" shadow={false}>
           <div className="flex justify-center items-center">
             <Typography variant="h4" color="blue-gray">
-              Login
+              Cadastro
             </Typography>
           </div>
 
           <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={formik.handleSubmit}>
             <div className="mb-4 flex flex-col gap-3">
+            <Input
+                id="nome"
+                size="lg"
+                label="Nome"
+                color="orange"
+                onChange={formik.handleChange}
+                value={formik.values.nome}
+                onBlur={formik.handleBlur}
+                required
+                className="input-margin"
+              />
+              <span className="text-sm text-red-600">
+                {formik.touched.nome && formik.errors.nome ? formik.errors.nome : ""}
+              </span>
               <Input
                 id="email"
                 size="lg"
@@ -123,16 +139,16 @@ export function Login() {
               </span>
             </div>
             <Button color="orange" className="mt-6" fullWidth type="submit">
-              Entrar
+              Cadastrar
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
-          Você ainda não possui Cadastro?{" "}
+          Você já possui cadastro?{" "}
           <a
             href="#"
-            onClick={() => navigate("/cadastro")}
+            onClick={() => navigate("/login")}
             className="font-medium text-orange-400 transition-colors hover:text-orange-500"
           >
-            Cadastrar
+            Entrar
           </a>
         </Typography>
           </form>
@@ -145,4 +161,3 @@ export function Login() {
     </>
   );
 }
-

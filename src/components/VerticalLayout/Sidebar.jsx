@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   Typography,
@@ -19,17 +19,20 @@ import {
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Outlet, useNavigate } from "react-router-dom";
- 
+
+import { AuthContext } from "../../Context/Auth";
+
 export const SideBar = () => {
+  const { signOut } = useContext(AuthContext)
 
   const navigate = useNavigate();
-
   const preparacao = () => navigate("preparacoes");
   const gestor = () => navigate("gestor");
   const preparadores = () => navigate("preparadores");
   const ingredientes = () => navigate("ingredientes");
   const cardapioPreparacao = () => navigate("cardapio-preparacao");
   const empresas = () => navigate("empresas");
+  const utensilios = () => navigate("utensilios");
 
   const [open, setOpen] = React.useState(0);
  
@@ -44,6 +47,7 @@ export const SideBar = () => {
     <aside className="fixed inset-0 z-50 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0">
     <Card className=" bg-gray-900 fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl xl:translate-x-0 bg-gradient-to-br">
         <div className="mb-2 flex items-center gap-4 p-4">
+        {/* <img  alt="logo" className="h-8 w-8" /> */}
           <Typography color="white" variant="h5" >
             Preparo Certo
           </Typography>
@@ -93,6 +97,14 @@ export const SideBar = () => {
                 </ListItemPrefix>
                 <Typography color="white" className="mr-auto font-normal">
                 Ingredientes
+              </Typography>
+              </ListItem>
+              <ListItem onClick={() => utensilios()}>
+                <ListItemPrefix>
+                  <ChevronRightIcon color="orange" strokeWidth={3} className="h-3 w-5" />
+                </ListItemPrefix>
+                <Typography color="white" className="mr-auto font-normal">
+                Utensílios
               </Typography>
               </ListItem>
             </List>
@@ -154,27 +166,12 @@ export const SideBar = () => {
           </ListItem>
         </Accordion>
         <hr className="my-2 border-blue-gray-50" />
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon color="orange" className="h-5 w-5" />
-          </ListItemPrefix>
-          <Typography color="white" className="mr-auto font-normal">
-            Perfil
-          </Typography>
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon color="orange" className="h-5 w-5" />
-          </ListItemPrefix>
-          <Typography color="white" className="mr-auto font-normal">
-            Configurações
-          </Typography>
-        </ListItem>
-        <ListItem>
+        
+        <ListItem onClick={() => signOut()}>
           <ListItemPrefix>
             <PowerIcon color="orange" className="h-5 w-5" />
           </ListItemPrefix>
-          <Typography color="white" className="mr-auto font-normal">
+          <Typography color="white" className="mr-auto font-normal"  >
             Sair
           </Typography>
         </ListItem>

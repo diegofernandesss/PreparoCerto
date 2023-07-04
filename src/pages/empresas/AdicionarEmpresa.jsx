@@ -16,6 +16,9 @@ import { Button,
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const AdicionarEmpresa = ({ showAddModal, empresas, setShowAddModal, setEmpresas, empresa, setEmpresa}) => {
 
   const [proprietarioList, setProprietarioList] = useState([]);
@@ -30,6 +33,10 @@ export const AdicionarEmpresa = ({ showAddModal, empresas, setShowAddModal, setE
 
   const isCnpjValid = (cnpj) => {
     return validatorCnpj.isValid(cnpj);
+  };
+
+  const notifyError = (error) => {
+    toast.error(error.response.data.descricao);
   };
 
   const validationSchema = yup.object({
@@ -110,7 +117,7 @@ export const AdicionarEmpresa = ({ showAddModal, empresas, setShowAddModal, setE
         resetForm();
       }
     } catch (error) {
-      console.log('Erro ao Adicionar/Atualizar Empresa', error);
+      notifyError(error)
     }
   };
    
@@ -134,7 +141,12 @@ export const AdicionarEmpresa = ({ showAddModal, empresas, setShowAddModal, setE
   }, [empresa])
 
     return (
+      <>
+      
           <Dialog open={showAddModal} >
+          <ToastContainer 
+            position="top-center"
+          />
             <div className="flex items-center justify-between">
               <DialogHeader>Empresa</DialogHeader>
               <XMarkIcon className="mr-3 h-5 w-5" onClick={ () => onClose()} />
@@ -206,5 +218,6 @@ export const AdicionarEmpresa = ({ showAddModal, empresas, setShowAddModal, setE
               </Button>
             </DialogFooter>    
           </Dialog>
+      </>
     );
   }

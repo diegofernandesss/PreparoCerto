@@ -1,57 +1,56 @@
 import { useState, useEffect } from "react";
 
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Card, CardHeader, Input, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
-
-import { AdicionarEmpresa } from './AdicionarEmpresa'
-
 import { api } from '../../service/api'
 
-const TABLE_HEAD = ["ID", "Nome da Empresa", "CNPJ", "Proprietario", "E-mail Proprietário", ""]; 
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Card, CardHeader, Input, Typography, Button, CardBody, CardFooter } from "@material-tailwind/react";
+import { AdicionarUtensilio } from './AdicionarUtensilio'
 
-export const Empresas = () => {
-  const [showAddModal, setShowAddModal] = useState(false)
+const TABLE_HEAD = ["ID", "Utensilios", ""]; 
 
-  const [empresas, setEmpresas] = useState([])
-  const [busca, setBusca] = useState("")
+export const Utensilios = () => {
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const [utensilios, setUtensilios] = useState([]);
+  const [busca, setBusca] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const [empresa, setEmpresa] = useState({});
+  const [utensilio, setUtensilio] = useState({});
 
-  const getEmpresas = async () => {
+  const getUtensilios = async () => {
     try {
-      const response = await api.get("/empresas");
-      setEmpresas(response.data.empresa);
-      
+      const response = await api.get("utensilios");
+      setUtensilios(response.data);
     } catch (error) {
-      console.error('Erro ao obter empresas:', error);
+      console.error('Erro ao obter os Ingrediente:', error);
     }
   };
 
   useEffect (() => {
-    getEmpresas();
+    getUtensilios();
   }, []);
 
   const handleAddModal = async (id) => {
     setShowAddModal(!showAddModal);
     if(id) {
-      const response = await api.get(`empresas/${id}`);
-      setEmpresa(response.data.empresa);
+      const response = await api.get(`utensilio/${id}`);
+      setUtensilio(response.data);
     } else{
-      setEmpresa({});
+      setUtensilio({});
     }
   }
+
 
   const handleClickAdicionar = () => setShowAddModal(true);
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`empresas/${id}`);
-      setEmpresas((prevData) => prevData.filter((empresa) => empresa.id !== id));
+      await api.delete(`utensilio/${id}`);
+      setUtensilios((prevData) => prevData.filter((utensilio) => utensilio.id !== id));
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Error ao deletar empresa:", error);
+      console.error("Error ao Deletar Ingrediente", error);
     }
   };
 
@@ -66,7 +65,7 @@ export const Empresas = () => {
     if (deletingId) {
       handleDelete(deletingId);
     }
-  };
+  }; 
 
   
   return (
@@ -76,7 +75,7 @@ export const Empresas = () => {
           <div className="mb-8 flex items-center justify-between gap-8">
             <div>
               <Typography variant="h5" color="blue-gray">
-                Empresas
+                Utensílios
               </Typography>
             </div>
             <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
@@ -116,10 +115,10 @@ export const Empresas = () => {
                   </tr>
               </thead>
               <tbody>
-              {empresas.filter((item) => {
+              {utensilios.filter((item) => {
                       return busca.toLowerCase() === "" ? item : item.nome.toLowerCase().includes(busca);
-                    }).map((item, index) => (
-                      <tr key={index} className="even:bg-blue-gray-50/50">
+                    }).map((item) => (
+                      <tr key={item.id} className="even:bg-blue-gray-50/50">
                             <td className="p-4">
                             <Typography variant="small" color="blue-gray" className="font-normal">
                               {item.id}
@@ -128,21 +127,6 @@ export const Empresas = () => {
                           <td className="p-4">
                               <Typography variant="small" color="blue-gray" className="font-normal">
                               {item.nome}
-                              </Typography>
-                          </td>
-                          <td className="p-4">
-                              <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.cnpj}
-                              </Typography>
-                          </td>
-                          <td className="p-4">
-                              <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.proprietario.nome}
-                              </Typography>
-                          </td>
-                          <td className="p-4">
-                              <Typography variant="small" color="blue-gray" className="font-normal">
-                              {item.proprietario.email}
                               </Typography>
                           </td>
                           <td>
@@ -162,7 +146,7 @@ export const Empresas = () => {
                                 excluir
                                 </Button>
                             </div>
-                          </td>
+                            </td>
                       </tr>
                   ))} 
               </tbody>
@@ -182,14 +166,14 @@ export const Empresas = () => {
             </Button>
           </div>
         </CardFooter>
-        <AdicionarEmpresa
+        <AdicionarUtensilio
           showAddModal={showAddModal}
           handleAddModal={handleAddModal}
-          empresas={empresas}
-          setEmpresas={setEmpresas}
+          utensilios={utensilios}
+          setUtensilios={setUtensilios}
           setShowAddModal={setShowAddModal}
-          empresa = {empresa}
-          setEmpresa ={setEmpresa}
+          utensilio = {utensilio}
+          setUtensilio = {setUtensilio}
         />
       </Card>
 

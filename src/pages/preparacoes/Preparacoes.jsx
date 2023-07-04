@@ -24,7 +24,6 @@ export const Preparacoes = () => {
 
   const navigate = useNavigate();
 
-
   const getPreparacoes = async () => {
     try {
       const response = await api.get("preparacoes");

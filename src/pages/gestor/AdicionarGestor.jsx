@@ -31,9 +31,6 @@ export const AdicionarGestor = ({ showAddModal, gestores, setShowAddModal, setGe
         .string()
         .trim()
         .email("Digite um e-mail válido")
-        // .test("unique-email", "O e-mail já está em uso", function (value) {
-        //   return !existingEmails.includes(value);
-        // })
         .test("lowercase-email", "Digite o e-mail em letras minúsculas", function (value) {
           return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g.test(value);
         })
@@ -227,7 +224,5 @@ export const AdicionarGestor = ({ showAddModal, gestores, setShowAddModal, setGe
               </Button>
             </DialogFooter>    
           </Dialog>
-
-
     );
   }
