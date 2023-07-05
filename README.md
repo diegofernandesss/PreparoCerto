@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Projeto Nutrição: Front-End 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+O objetivo deste projeto em equipe é desenvolver um sistema de cálculo e sugestão de preço de refeições utilizando a linguagem de programação React.js. O sistema será capaz de receber informações sobre os ingredientes utilizados na preparação das refeições, calcular o custo total desses ingredientes e sugerir um preço de venda adequado para cada refeição.
 
-## Available Scripts
+## Instalação
 
-In the project directory, you can run:
+Instalar o projeto usando Yarn
 
-### `npm start`
+```bash
+  cd Projeto_Nutricao
+  yarn install
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Recursos e Funcionalidades:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Cadastro de Ingredientes:
+- O sistema permitirá o cadastro dos ingredientes utilizados nas refeições, incluindo nome, quantidade, unidade de medida e custo unitário.
 
-### `npm test`
+Cadastro de Refeições:
+- Será possível cadastrar as refeições, informando o nome, descrição, lista de ingredientes necessários e a quantidade de cada ingrediente utilizada na preparação.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Cálculo de Custo:
+- Com base nas informações de ingredientes cadastrados e nas quantidades utilizadas em cada refeição, o sistema calculará o custo total de cada refeição.
 
-### `npm run build`
+Sugestão de Preço de Venda:
+- Com o custo total calculado, o sistema irá aplicar uma margem de lucro configurável para sugerir um preço de venda adequado para cada refeição. Essa margem poderá ser definida pelos usuários do sistema.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Visualização de Relatórios:
+- Será possível visualizar relatórios com informações sobre as refeições cadastradas, custo total, preço de venda sugerido e margem de lucro aplicada.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Gerenciamento de Usuários:
+- O sistema terá recursos de gerenciamento de usuários, permitindo que cada membro da equipe tenha um perfil de acesso com permissões específicas.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Interface de Usuário Responsiva:
+- A interface do sistema será desenvolvida utilizando React.js, garantindo uma experiência de usuário agradável e responsiva em diferentes dispositivos.
 
-### `npm run eject`
+Integração com Backend:
+- O frontend desenvolvido em React.js se comunicará com um backend adequado para armazenamento de dados, autenticação de usuários e execução de operações de cálculo e sugestão de preço.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Cronograma de Desenvolvimento:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Fase 1: Levantamento de Requisitos e Design da Interface
+   - Definir os requisitos do sistema em conjunto com a equipe.
+   - Projetar a interface do usuário utilizando React.js.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Fase 2: Implementação do Frontend
+   - Desenvolver os componentes e funcionalidades do frontend em React.js.
+   - Realizar testes unitários para garantir a qualidade do código.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Fase 3: Desenvolvimento do Backend e Integração
+   - Implementar o backend para fornecer os recursos de armazenamento de dados e autenticação de usuários.
+   - Integrar o frontend com o backend.
 
-## Learn More
+Fase 4: Testes e Depuração
+   - Realizar testes de integração e testes de usabilidade para identificar e corrigir eventuais problemas.
+   - Refinar a interface do usuário e melhorar a experiência de uso.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Fase 5: Lançamento e Manutenção
