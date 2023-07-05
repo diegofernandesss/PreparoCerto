@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: process.env.REACT_APP_API
+  baseURL:"https://preparocerto.onrender.com/"
 });
 
 api.interceptors.request.use(
