@@ -7,7 +7,7 @@ O objetivo deste projeto em equipe é desenvolver um sistema de cálculo e suges
 Instalar o projeto usando Yarn
 
 ```bash
-  cd Projeto_Nutricao
+  cd PreparoCerto
   yarn install
 ```
 
