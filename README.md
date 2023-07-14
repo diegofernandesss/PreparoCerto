@@ -1,4 +1,4 @@
-# Projeto Nutrição: Front-End 
+# Projeto Preparo Certo: Front-End 
 
 O objetivo deste projeto em equipe é desenvolver um sistema de cálculo e sugestão de preço de refeições utilizando a linguagem de programação React.js. O sistema será capaz de receber informações sobre os ingredientes utilizados na preparação das refeições, calcular o custo total desses ingredientes e sugerir um preço de venda adequado para cada refeição.
 
